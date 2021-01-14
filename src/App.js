@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import arrayMove from 'array-move';
 import { Feed } from "./Feed"
 
@@ -10,10 +10,14 @@ function App() {
       setPosts(data)
     })
   }, [])
+
+  const handleSort = useCallback(({ oldIndex, newIndex }) => {
+    setPosts(arrayMove(posts, oldIndex, newIndex));
+  }, [posts])
+
   return (
-    <Feed lockAxis="y" posts={posts} onSortEnd={({ oldIndex, newIndex }) => {
-      setPosts(arrayMove(posts, oldIndex, newIndex));
-    }} />
+    <Feed lockAxis="y" posts={posts} onSortEnd={handleSort} 
+    />
   );
 }
 
